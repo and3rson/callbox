@@ -1,0 +1,26 @@
+version: '2.1'
+services:
+    app:
+        image: callbox
+        environment:
+            DJANGO_SETTINGS_MODULE: callbox.settings
+            PYTHONUNBUFFERED: 0
+        command: >
+            /bin/bash -c "
+                while ! nc -z postgres 5432; do sleep 1; echo 'Waiting for PostgreSQL'; done;
+                ./manage.py migrate
+                ./manage.py runserver 0.0.0.0:8000
+            "
+        volumes:
+            - ./callbox:/app/callbox
+        links:
+            - postgres
+        ports:
+            - 8000:8000
+    postgres:
+        image: postgres:9
+        environment:
+            POSTGRES_USER: root
+            POSTGRES_PASSWORD:
+            POSTGRES_DB: callbox
+
