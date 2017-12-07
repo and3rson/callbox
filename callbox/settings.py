@@ -40,15 +40,17 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework_swagger',
+    'corsheaders',
 
     'callbox.main',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -128,9 +130,19 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # CORS
-CORS_ORIGIN_REGEX_WHITELIST = [
-    r'http(s?):\/\/(127\.0\.0\.1|localhost|::1):(.*)'
-]
+CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_REGEX_WHITELIST = [
+#     r'http(s?):\/\/(127\.0\.0\.1|localhost|::1):(.*)'
+# ]
 
 CORS_ALLOW_CREDENTIALS = True
+
+# DRF
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'callbox.main.auth.CsrfExemptSessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    )
+}
 
