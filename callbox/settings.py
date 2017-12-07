@@ -146,3 +146,13 @@ REST_FRAMEWORK = {
     )
 }
 
+# Swagger
+
+SWAGGER_SETTINGS = {
+    'DOC_EXPANSION': 'list',
+    'JSON_EDITOR': False,
+    'OPERATIONS_SORTER': 'alpha',
+    # 'SHOW_REQUEST_HEADERS': True,
+    'USE_SESSION_AUTH': False,
+}
+
